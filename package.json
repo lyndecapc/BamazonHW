@@ -14,5 +14,13 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {},
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyndecapc/BamazonHW.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lyndecapc/BamazonHW/issues"
+  },
+  "homepage": "https://github.com/lyndecapc/BamazonHW#readme"
 }
