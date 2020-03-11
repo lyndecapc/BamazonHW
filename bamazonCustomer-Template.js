@@ -33,18 +33,44 @@ function loadProducts() {
     if (err) throw err;
 
     // Draw the table in the terminal using the response
-    console.table(res);
+    console.table(res, "\n");
 
     // Then prompt the customer for their choice of product, pass all the products to promptCustomerForItem
-    promptCustomerForItem(res);
+    promptCustomerForItem();
   });
 }
 
 // Prompt the customer for a product ID
-function promptCustomerForItem(inventory) {
+function promptCustomerForItem() {
   // Prompts user for what they would like to purchase
- 
-}
+ inquirer
+ .prompt([
+   {
+    name: "id",
+    type: "input",
+    message: "Please enter the item ID of the product you wish to buy.\n",
+    validate: function(value) {
+      if (!isNaN(value) && value < 11) {
+        return true;
+      }
+      return false;
+      }
+    },
+    {
+      name: "quantity",
+      type: "input",
+      message: "How many units of the product do you wish to buy?\n",
+      validate: function(value) {
+      if (!isNaN(value)) {
+        return true;
+      }
+      return false;
+    }
+      }])
+      .then(function(answer) {
+
+      })
+    
 
 // Prompt the customer for a product quantity
 function promptCustomerForQuantity(product) {
@@ -67,4 +93,5 @@ function checkIfShouldExit(choice) {
     console.log("Goodbye!");
     process.exit(0);
   }
+}
 }
