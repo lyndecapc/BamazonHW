@@ -68,7 +68,10 @@ function promptCustomerForItem() {
     }
       }])
       .then(function(answer) {
-
+          var userId = answer.id;
+          var userQuantity = answer.quantity;
+          console.log("You chose to buy", userQuantity, "units of item", userId);
+    
       })
     
 
