@@ -57,6 +57,7 @@ function promptCustomerForItem() {
       }
     },
     {
+      // Prompt the customer for a product quantity
       name: "quantity",
       type: "input",
       message: "How many units of the product do you wish to buy?\n",
@@ -71,18 +72,38 @@ function promptCustomerForItem() {
           var userId = answer.id;
           var userQuantity = answer.quantity;
           console.log("You chose to buy", userQuantity, "units of item", userId);
-    
-      })
-    
+        
+          
+            makePurchase(userId, userQuantity);
 
-// Prompt the customer for a product quantity
-function promptCustomerForQuantity(product) {
-}
+          });
+      };
+    
 
 // Purchase the desired quantity of the desired item
-function makePurchase(product, quantity) {
+function makePurchase(userId, userQuantity) {
+  connection.query("SELECT * FROM products WHERE item_id =" + userId, function(err, res) {
+    if (err) throw err;
+    
+    if (userQuantity <= res[0].stock_quantity) {
+    var totalCost = res[0].price * userQuantity;
+    console.log("Your items are in stock!");
+    console.log("Your total cost for " + userQuantity + " " + res[0].product_name + " is " + totalCost + " Thank you!");
+
+    connection.query("UPDATE Products SET ? WHERE ?", [{stock_quantity: userId.stock_quantity - userQuantity}])
   
-}
+  }
+  else {
+			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + "to complete your order.");
+    }
+    
+    loadProducts();
+  });
+
+
+
+
+
 
 // Check to see if the product the user chose exists in the inventory
 function checkInventory(choiceId, inventory) {
