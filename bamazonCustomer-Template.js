@@ -82,7 +82,7 @@ function promptCustomerForItem() {
 
 // Purchase the desired quantity of the desired item
 function makePurchase(userId, userQuantity) {
-  connection.query("SELECT * FROM products WHERE item_id =" + userId, function(err, res) {
+  connection.query("SELECT * FROM products WHERE item_id = " + userId, function(err, res) {
     if (err) throw err;
     
     if (userQuantity <= res[0].stock_quantity) {
@@ -90,7 +90,7 @@ function makePurchase(userId, userQuantity) {
     console.log("Your items are in stock!");
     console.log("Your total cost for " + userQuantity + " " + res[0].product_name + " is " + totalCost + " Thank you!");
 
-    connection.query("UPDATE Products SET ? WHERE ?", [{stock_quantity: userId.stock_quantity - userQuantity}])
+    connection.query("UPDATE products SET stock_quantity = stock_quantity - " + userQuantity, "WHERE item_id = " + userId); 
   
   }
   else {
@@ -98,9 +98,10 @@ function makePurchase(userId, userQuantity) {
     }
     
     loadProducts();
+  
   });
 
-
+displayProducts();
 
 
 
@@ -111,8 +112,8 @@ function checkInventory(choiceId, inventory) {
 }
 
 // Check to see if the user wants to quit the program
-function checkIfShouldExit(choice) {
-  if (choice.toLowerCase() === "q") {
+function quit(choice) {
+  if (choice === "q") {
     // Log a message and exit the current node process
     console.log("Goodbye!");
     process.exit(0);
