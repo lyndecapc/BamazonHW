@@ -84,32 +84,28 @@ function promptCustomerForItem() {
 function makePurchase(userId, userQuantity) {
   connection.query("SELECT * FROM products WHERE item_id = " + userId, function(err, res) {
     if (err) throw err;
-    
     if (userQuantity <= res[0].stock_quantity) {
     var totalCost = res[0].price * userQuantity;
     console.log("Your items are in stock!");
     console.log("Your total cost for " + userQuantity + " " + res[0].product_name + " is " + totalCost + " Thank you!");
 
-    connection.query("UPDATE products SET stock_quantity = stock_quantity - " + userQuantity, "WHERE item_id = " + userId); 
+    var updateStock = "UPDATE products SET stock_quantity = " + (res[0].stock_quantity - userQuantity) + " WHERE item_id = " + userId;
+
+    connection.query(updateStock, function() {
+      if (err) throw err;
+    })
   
   }
   else {
-			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + "to complete your order.");
+			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + " to complete your order.");
     }
     
     loadProducts();
   
   });
 
-displayProducts();
 
 
-
-
-// Check to see if the product the user chose exists in the inventory
-function checkInventory(choiceId, inventory) {
- 
-}
 
 // Check to see if the user wants to quit the program
 function quit(choice) {
