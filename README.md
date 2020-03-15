@@ -22,3 +22,5 @@ To run the customer interface please follow the four steps below:
 *Bamazon Demo
 
 You can watch the demo of the Bamazon customer interface at the link below.  
+
+https://drive.google.com/file/d/1jMRLVXh5h83VwvlmDcoafVJFJ550iB5J/view
