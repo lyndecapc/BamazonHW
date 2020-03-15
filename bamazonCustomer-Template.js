@@ -3,6 +3,8 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 require("console.table");
 
+
+
 // Initializes the connection variable to sync with a MySQL database
 var connection = mysql.createConnection({
   host: "localhost",
@@ -99,20 +101,23 @@ function makePurchase(userId, userQuantity) {
   else {
 			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + " to complete your order.");
     }
-    
-    loadProducts();
+
+    promptNewPurchase();
+  
   
   });
 
+  var promptNewPurchase = function() {
+    inquirer.prompt({
+        name: 'newPurchase',
+        type: 'confirm',
+        message: 'Would you like to make another purchase?'
+    }).then((answer) => {
+        if (answer.newPurchase) {
+          promptCustomerForItem();
+        } else {
+            console.log("We appreciate your business. Have a great day!");
+            connection.end();
+    }})}
 
-
-
-// Check to see if the user wants to quit the program
-function quit(choice) {
-  if (choice === "q") {
-    // Log a message and exit the current node process
-    console.log("Goodbye!");
-    process.exit(0);
-  }
-}
-}
+  };
