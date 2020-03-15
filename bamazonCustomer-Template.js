@@ -42,6 +42,17 @@ function loadProducts() {
   });
 }
 
+function checkInventory() {
+  // Selects all of the data from the MySQL products table
+  connection.query("SELECT * FROM products", function(err, res) {
+    if (err) throw err;
+
+    // Draw the table in the terminal using the response
+    console.table(res, "\n");
+  
+  });
+}
+
 // Prompt the customer for a product ID
 function promptCustomerForItem() {
   // Prompts user for what they would like to purchase
@@ -101,8 +112,10 @@ function makePurchase(userId, userQuantity) {
   else {
 			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + " to complete your order.");
     }
-
+  
+    
     promptNewPurchase();
+    checkInventory();
   
   
   });
